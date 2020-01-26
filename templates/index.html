@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>超分辨率图像处理系统</title>
+</head>
+<script type="text/javascript"
+        src="/static/js/jquery-1.8.0.min.js"></script>
+<body>
+<input type="file" name="file" id="file">
+<input type="button" onclick="postData()" value="上传"/>
+<div id="showpicture">
+    {% for pic in pics %}
+    <a target="_blank" href='/detail/{{pic.name[0:32]}}'><img src="{{pic.url}}"/></a>
+    {% endfor%}
+</div>
+<script type="text/javascript">
+    function postData() {
+        var formData = new FormData();
+        formData.append('file', $('#file')[0].files[0]);
+        $.ajax({
+            url: '/uploader',
+            type: 'post',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                var picIndex = "<a target=\"_blank\" href='/detail/" + res.name.substr(0, 32) + "'><img src='" + res.url + "'/></a>"
+                $('#showpicture').prepend(picIndex)
+            }
+        })
+    }
+</script>
+
+</form>
+</body>
+</html>

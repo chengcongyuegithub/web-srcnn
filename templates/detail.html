@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图片详情页</title>
+</head>
+<script type="text/javascript"
+        src="/static/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="/static/js/delete.js"></script>
+<script type="text/javascript" src="/static/js/upscaling.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/delete.css"/>
+<body>
+<div id="content">
+    {% for pic in pictures%}
+    <div>
+        <p>图片名称:{{pic.name}}</p>
+        <p>图片如下所示:</p>
+        {% if pic.action!='Thumbnail_50x50' %}
+        <div id="{{pic.id}}_{{pic.action}}" class="imgDiv">
+            <img src="{{pic.url}}" />
+            <span class="delete" >+</span>
+        </div>
+        {% else%}
+        <img src="{{pic.url}}" />
+        {% endif%}
+        {% if pic.action=='Origin' %}
+        <h1> 上面的图片是原图　</h1>
+        <input id="picname" type="hidden" name="picname" value="{{pic.name}}"/>
+        <input id="upscaling" type="button" name="upscaling" value="放大"/>&nbsp;&nbsp;&nbsp;<span
+            id="times"></span>
+        {% elif pic.action=='Thumbnail_50x50' %}
+        <h1>上面的图片是缩略图</h1>
+        {% elif pic.action.find('Upscale')!=-1 %}
+        <h1>上面的图片是{{pic.action}}的图片</h1>
+        {% endif%}
+    </div>
+    {% endfor%}
+</div>
+</body>
+</html>
